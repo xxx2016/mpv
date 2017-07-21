@@ -48,21 +48,6 @@ struct gl_vao_entry {
     int offset;
 };
 
-struct gl_vao {
-    GL *gl;
-    GLuint vao;     // the VAO object, or 0 if unsupported by driver
-    GLuint buffer;  // GL_ARRAY_BUFFER used for the data
-    int stride;     // size of each element (interleaved elements are assumed)
-    const struct gl_vao_entry *entries;
-};
-
-void gl_vao_init(struct gl_vao *vao, GL *gl, int stride,
-                 const struct gl_vao_entry *entries);
-void gl_vao_uninit(struct gl_vao *vao);
-void gl_vao_bind(struct gl_vao *vao);
-void gl_vao_unbind(struct gl_vao *vao);
-void gl_vao_draw_data(struct gl_vao *vao, GLenum prim, void *ptr, size_t num);
-
 struct fbotex {
     GL *gl;
     GLuint fbo;
@@ -154,8 +139,6 @@ void gl_sc_addf(struct gl_shader_cache *sc, const char *textf, ...);
 void gl_sc_hadd(struct gl_shader_cache *sc, const char *text);
 void gl_sc_haddf(struct gl_shader_cache *sc, const char *textf, ...);
 void gl_sc_hadd_bstr(struct gl_shader_cache *sc, struct bstr text);
-void gl_sc_uniform_sampler(struct gl_shader_cache *sc, char *name, GLenum target,
-                           int unit);
 void gl_sc_uniform_tex(struct gl_shader_cache *sc, char *name, GLenum target,
                        GLuint texture);
 void gl_sc_uniform_tex_ui(struct gl_shader_cache *sc, char *name, GLuint texture);
@@ -167,7 +150,6 @@ void gl_sc_uniform_mat2(struct gl_shader_cache *sc, char *name,
                         bool transpose, GLfloat *v);
 void gl_sc_uniform_mat3(struct gl_shader_cache *sc, char *name,
                         bool transpose, GLfloat *v);
-void gl_sc_set_vao(struct gl_shader_cache *sc, struct gl_vao *vao);
 void gl_sc_set_vertex_format(struct gl_shader_cache *sc,
                              const struct gl_vao_entry *entries,
                              size_t vertex_size);
